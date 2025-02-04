@@ -1,4 +1,4 @@
-class Cy_Warrior():
+class Cy_Warrior:
     def __init__(self, name, melee, ranged, intelligence, wisdom, durability, dexterity, navigation):
         """
         Initialize a Cy_Warrior instance.
@@ -20,7 +20,7 @@ class Cy_Warrior():
         self.durability = durability
         self.dexterity = dexterity
         self.navigation = navigation
-class Space_Pilot():
+class Space_Pilot:
     def __init__(self, name, melee, ranged, intelligence, wisdom, durability, dexterity, navigation):
         """
         Initialize a Space_Pilot instance.
@@ -43,7 +43,7 @@ class Space_Pilot():
         self.dexterity = dexterity
         self.navigation = navigation
 
-class Bio_Engineer():
+class Bio_Engineer:
     def __init__(self, name, melee, ranged, intelligence, wisdom, durability, dexterity, navigation):
         """
         Initialize a Bio_Engineer instance.
@@ -66,7 +66,7 @@ class Bio_Engineer():
         self.dexterity = dexterity
         self.navigation = navigation
 
-class Quantum_Hacker():
+class Quantum_Hacker:
     def __init__(self, name, melee, ranged, intelligence, wisdom, durability, dexterity, navigation):
         """
         Initialize a Quantum_Hacker instance.
@@ -89,7 +89,7 @@ class Quantum_Hacker():
         self.dexterity = dexterity
         self.navigation = navigation
 
-class Infiltrator():
+class Infiltrator:
     def __init__(self, name, melee, ranged, intelligence, wisdom, durability, dexterity, navigation):
         """
         Initialize an Infiltrator instance.
@@ -111,8 +111,3 @@ class Infiltrator():
         self.durability = durability
         self.dexterity = dexterity
         self.navigation = navigation
-Cy_Warrior = Cy_Warrior("Cy_Warrior",0,0,0,0,0,0,0)
-Space_Pilot = Space_Pilot("Space_Pilot", 0, 0, 0, 0, 0, 0, 0)
-Bio_Engineer = Bio_Engineer("Bio_Engineer", 0, 0, 0, 0, 0, 0, 0)
-Quantum_Hacker = Quantum_Hacker("Quantum_Hacker", 0, 0, 0, 0, 0, 0, 0)
-Infiltrator = Infiltrator("Infiltrator", 0, 0, 0, 0, 0, 0, 0)

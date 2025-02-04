@@ -1,16 +1,20 @@
 #imports
-from ast import Global
-import glob
+import os
 import pickle
 import random
-from re import A, M
 from tkinter import ttk
 import keyboard
 import tkinter as tk
 import time
+global Cy_Warrior
+global Space_Pilot
+global Bio_Engineer
+global Quantum_Hacker
+global Infiltrator
 from Classes import Cy_Warrior, Space_Pilot, Bio_Engineer, Quantum_Hacker, Infiltrator 
 from weapons import *
 from items import *
+
 
 
 #creating the window
@@ -31,28 +35,8 @@ The_Flying_Carpet_found = False
 Adventurers_Den_found = False
 
 
-#unpickling markers
-try:
-    Ignis_found = pickle.load(open("Ignis.p","rb"))
-    City_square_found = pickle.load(open("City_square.p","rb"))
-    Black_Widow_Craft_Ales_found = pickle.load(open("Black_Widow_Craft_Ales.p","rb"))
-    The_Angelic_Shoe_found = pickle.load(open("The_Angelic_Shoe.p","rb"))
-    The_Rainy_Tribute_found = pickle.load(open("The_Rainy_Tribute.p","rb"))
-    Genius_in_a_Bottle_found = pickle.load(open("Genius_in_a_Bottle.p","rb"))
-    le_Talisman_found = pickle.load(open("le_Talisman.p","rb"))
-    The_Flying_Carpet_found = pickle.load(open("The_Flying_Carpet.p","rb"))
-    Adventurers_Den_found = pickle.load(open("Adventurers_Den.p","rb"))
-except:
-    #pickleing markers
-    pickle.dump(Ignis_found,open("Ignis.p","wb"))
-    pickle.dump(City_square_found,open("City_square.p","wb"))
-    pickle.dump(Black_Widow_Craft_Ales_found,open("Black_Widow_Craft_Ales.p","wb"))
-    pickle.dump(The_Angelic_Shoe_found,open("The_Angelic_Shoe.p","wb"))
-    pickle.dump(The_Rainy_Tribute_found,open("The_Rainy_Tribute.p","wb"))
-    pickle.dump(Genius_in_a_Bottle_found,open("Genius_in_a_Bottle.p","wb"))
-    pickle.dump(le_Talisman_found,open("le_Talisman.p","wb"))
-    pickle.dump(The_Flying_Carpet_found,open("The_Flying_Carpet.p","wb"))
-    pickle.dump(Adventurers_Den_found,open("Adventurers_Den.p","wb"))
+global load
+load = False
 
 
 #making a disabler
@@ -208,6 +192,19 @@ def move():
 
     global close
     close = True
+
+    #unpickling the locations
+    try:
+        Black_Widow_Craft_Ales = pickle.load(open("Black_Widow_Craft_Ales.p","rb"))
+        The_Angelic_Shoe = pickle.load(open("The_Angelic_Shoe.p","rb"))
+        The_Rainy_Tribute = pickle.load(open("The_Rainy_Tribute.p","rb"))
+        Genius_in_a_Bottle = pickle.load(open("Genius_in_a_Bottle.p","rb"))
+        le_Talisman = pickle.load(open("le_Talisman.p","rb"))
+        The_Flying_Carpet = pickle.load(open("The_Flying_Carpet.p","rb"))
+        City_square = pickle.load(open("City_square.p","rb"))
+        Adventurers_Den = pickle.load(open("Adventurers_Den.p","rb"))
+    except:
+        pass
 
     #move button functions
     def bwaf():
@@ -1054,6 +1051,112 @@ btn_frm.grid(column=0,row=6,columnspan=10,rowspan=4,sticky="nsew")
 
 
 
+#load save
+def load_save():
+    global load
+    load = True
+    global Ignis_found, City_square_found, Black_Widow_Craft_Ales_found, The_Angelic_Shoe_found, The_Rainy_Tribute_found, Genius_in_a_Bottle_found, le_Talisman_found, The_Flying_Carpet_found, Adventurers_Den_found
+    global player
+    global Locations_all
+    global Locations_name
+    for i in Locations_all:
+        try:
+            Locations_all[i] = pickle.load(open(f"{Locations_name[i]}.p","rb"))
+        except:
+            pass
+    try:
+        Ignis_found = pickle.load(open("Ignis.p","rb"))
+        City_square_found = pickle.load(open("City_square.p","rb"))
+        Black_Widow_Craft_Ales_found = pickle.load(open("Black_Widow_Craft_Ales.p","rb"))
+        The_Angelic_Shoe_found = pickle.load(open("The_Angelic_Shoe.p","rb"))
+        The_Rainy_Tribute_found = pickle.load(open("The_Rainy_Tribute.p","rb"))
+        Genius_in_a_Bottle_found = pickle.load(open("Genius_in_a_Bottle.p","rb"))
+        le_Talisman_found = pickle.load(open("le_Talisman.p","rb"))
+        The_Flying_Carpet_found = pickle.load(open("The_Flying_Carpet.p","rb"))
+        Adventurers_Den_found = pickle.load(open("Adventurers_Den.p","rb"))
+        player = pickle.load(open("player.p","rb"))
+
+    except:
+        load = False
+    start()
+    
+
+
+
+
+
+
+
+
+
+
+
+#save game
+def save_game():
+    global Ignis_found, City_square_found, Black_Widow_Craft_Ales_found, The_Angelic_Shoe_found, The_Rainy_Tribute_found, Genius_in_a_Bottle_found, le_Talisman_found, The_Flying_Carpet_found, Adventurers_Den_found
+    global player
+    #pickleing markers
+    pickle.dump(Ignis_found,open("Ignis.p","wb"))
+    pickle.dump(City_square_found,open("City_square.p","wb"))
+    pickle.dump(Black_Widow_Craft_Ales_found,open("Black_Widow_Craft_Ales.p","wb"))
+    pickle.dump(The_Angelic_Shoe_found,open("The_Angelic_Shoe.p","wb"))
+    pickle.dump(The_Rainy_Tribute_found,open("The_Rainy_Tribute.p","wb"))
+    pickle.dump(Genius_in_a_Bottle_found,open("Genius_in_a_Bottle.p","wb"))
+    pickle.dump(le_Talisman_found,open("le_Talisman.p","wb"))
+    pickle.dump(The_Flying_Carpet_found,open("The_Flying_Carpet.p","wb"))
+    pickle.dump(Adventurers_Den_found,open("Adventurers_Den.p","wb"))
+    
+    try:
+        pickle.dump(player,open("player.p","wb"))
+    except:
+        pass
+    clear_txt_box()
+    text = "Your game has been saved"
+    printString(text)
+    time.sleep(1)
+    clear_txt_box()
+    text = "Goodbye"
+    printString(text)
+    time.sleep(0.5)
+    exit()
+
+
+
+
+
+
+
+
+
+
+
+
+#ask the player if they want to load a save
+def Query():
+    text = "Do you want to load a save?"
+    printString(text)
+    answer = False
+    while answer == False:
+        window.update()
+        get_entry_text()
+        if selection == "1":
+            txt_ent.delete(0,tk.END)
+            load_save()
+        if selection == "2":
+            txt_ent.delete(0,tk.END)
+            start()
+
+
+
+
+
+
+
+
+
+
+
+
 # Function to start the game
 def start():
     window.title("Adventure begins")
@@ -1064,8 +1167,12 @@ def start():
     time.sleep(0.5)
     text = " don't die."
     printString(text)
+    time.sleep(2.5)
     get_entry_text()
-    select_class()
+    if load == False:
+        select_class()
+    else:
+        game()
 
 
 
@@ -1083,15 +1190,15 @@ def select_class():
     # Display class options to the user
     clear_txt_box()
     window.title("Select your Class")
-    text = "1 " + Cy_Warrior.name + "\n"
+    text = "1 " + "Cy_Warrior" + "\n"
     printString(text)
-    text = "2 " + Space_Pilot.name + "\n"
+    text = "2 " + "Space_Pilot" + "\n"
     printString(text)
-    text = "3 " + Bio_Engineer.name + "\n"
+    text = "3 " + "Bio_Engineer" + "\n"
     printString(text)
-    text = "4 " + Quantum_Hacker.name + "\n"
+    text = "4 " + "Quantum_Hacker" + "\n"
     printString(text)
-    text = "5 " + Infiltrator.name + "\n"
+    text = "5 " + "Infiltrator" + "\n"
     printString(text)
     text = "Pick a class from above using the numbers before."
     printString(text)
@@ -1108,28 +1215,47 @@ def select_class():
             clear_txt_box()
             txt_ent.delete(0, tk.END)
             text = "You have selected class " + selection
-            pickle.dump(selection,open("class.p","wb"))
             printString(text)
     
     
     #player creation
-    namer = random(1,10)
-    Names_cywarrior = []
-    Names_spacepilot = []
-    Names_bioengineer = ["Enusim",]
-    Names_quantumhacker = []
-    Names_infiltrator = []
+    global namer
+    namer = random.randint(0,9)
+    Names_cywarrior = ["Issa","Hora","Kek","Vena","Nix","Astartus","Asardin","Nirmal","Anskar","Eirforað"]
+    Names_spacepilot = ["Satet","Ganmaes","Galmami","Dobrur","Murboic","Giggamri","Lolger","Ludit","Kirgod","Fodgrear"]
+    Names_bioengineer = ["Enusim","Iphiar","Asuless","Aprix","Amazz","Ebaris","Orokey","Farass","Alin","Emidel"]
+    Names_quantumhacker = ["Paragon","Umbra","Azrael","Tyran","Primrose","Rose","Asp","Zot","Vex","Dawn"]
+    Names_infiltrator = ["Guarde","Mongrel","Shank","Lore","Raine","Nightshade","Nil","Thorne","Mockingbird","Lynch"]
+    global meleer, ranger, inteller, wisdomer, durabilityer, dexterityer, navigationer
+    meleer = random.randint(11,20)
+    ranger = random.randint(11,20)
+    inteller = random.randint(11,20)
+    wisdomer = random.randint(11,20)
+    durabilityer = random.randint(11,20)
+    dexterityer = random.randint(11,20)
+    navigationer = random.randint(11,20)
     global player
-    if selection == "1":
-        player = Cy_Warrior()
-    elif selection == "2":
-        player = Space_Pilot()
-    elif selection == "3":
-        player = Bio_Engineer()
-    elif selection == "4":
-        player = Quantum_Hacker()
-    elif selection == "5":
-        player = Infiltrator()
+    global load
+    if load == False:
+        if selection == "1":
+            global player
+            player = Cy_Warrior(Names_cywarrior[namer],meleer+5,ranger+1,inteller,wisdomer+3,durabilityer+2,dexterityer+1,navigationer)
+            playerp = pickle.dump(player,open("player.p","wb"))
+        elif selection == "2":
+            player = Space_Pilot(Names_spacepilot[namer],meleer,ranger+1,inteller+2,wisdomer+1,durabilityer,dexterityer+3,navigationer+5)
+            playerp = pickle.dump(player,open("player.p","wb"))
+        elif selection == "3":
+            player = Bio_Engineer(Names_bioengineer[namer],meleer,ranger+2,inteller+5,wisdomer+1,durabilityer+1,dexterityer+2,navigationer+1)
+            playerp = pickle.dump(player,open("player.p","wb"))
+        elif selection == "4":
+            player = Quantum_Hacker(Names_quantumhacker[namer],meleer,ranger+2,inteller+5,wisdomer+3,durabilityer,dexterityer+2,navigationer)
+            playerp = pickle.dump(player,open("player.p","wb"))
+        elif selection == "5":
+            player = Infiltrator(Names_infiltrator[namer],meleer+2,ranger+2,inteller+2,wisdomer,durabilityer,dexterityer+5,navigationer+1)
+            playerp = pickle.dump(player,open("player.p","wb"))
+    else:
+        playerp = pickle.load(open("player.p","rb"))
+        player = playerp
     
     time.sleep(3)
     game()  # Start the game
@@ -1156,16 +1282,28 @@ def game():
     # Display welcome message
     text = "welcome to the wide world"
     printString(text)
-    time.sleep(3)
+    time.sleep(2)
     clear_txt_box()
     
     # Display initial game scenario
+    print("name: "+player.name)
+    try:
+        print("melee: "+ str(player.melee) + str(meleer))
+        print("ranged: "+ str(player.ranged) + str(ranger))
+        print("intelligence: "+ str(player.intelligence) + str(inteller))
+        print("wisdom: "+ str(player.wisdom) + str(wisdomer))
+        print("durability: "+ str(player.durability) + str(durabilityer))
+        print("dexterity: "+ str(player.dexterity) + str(dexterityer))
+        print("navigation: "+ str(player.navigation) + str(navigationer))
+    except:
+        pass
     text = "You find yourself in a city square, the suns are shining and the people are going about their business. You see a few shops and a bar. There's a sign pointing toward the Adventurers Den. What do you do?"
     global City_square_found
     City_square_found = True
+    disabler()
     pickle.dump(City_square_found,open("City_square.p","wb"))
     printString(text)
-    time.sleep(3)
+    time.sleep(1)
     global Black_Widow_Craft_Ales, The_Angelic_Shoe, The_Rainy_Tribute, Genius_in_a_Bottle, le_Talisman, The_Flying_Carpet, Adventurers_Den, City_square
     Black_Widow_Craft_Ales = True
     The_Angelic_Shoe = True
@@ -1175,10 +1313,73 @@ def game():
     The_Flying_Carpet = True
     Adventurers_Den = True
     City_square = False
-    
+    answer = False
+    while answer == False:
+        get_entry_text()
+        window.update()
+        if selection == "1":
+            txt_ent.delete(0, tk.END)
+            end()
+        else:
+            pass
     #Coming soon
 
 
+
+
+
+
+
+
+
+
+
+
+
+def end():
+    clear_txt_box()
+    text = "The end of the game"
+    printString(text)
+    time.sleep(1)
+    text = "\n Do you want to save?"
+    printString(text)
+    time.sleep(1)
+    answer = False
+    while answer == False:
+        get_entry_text()
+        window.update()
+        if selection == "1":
+            save_game()
+            txt_ent.delete(0,tk.END)
+            clear_txt_box()
+        if selection == "2":
+            delete_save()
+            clear_txt_box()
+
+
+def delete_save():
+    try:
+        os.remove("player.p")
+        os.remove("Ignis.p")
+        os.remove("City_square.p")
+        os.remove("Black_Widow_Craft_Ales.p")
+        os.remove("The_Angelic_Shoe.p")
+        os.remove("The_Rainy_Tribute.p")
+        os.remove("Genius_in_a_Bottle.p")
+        os.remove("le_Talisman.p")
+        os.remove("The_Flying_Carpet.p")
+        os.remove("Adventurers_Den.p")
+        print("Save deleted")
+    except:
+        pass
+    text = "Save deleted"
+    printString(text)
+    time.sleep(1)
+    clear_txt_box()
+    text = "Goodbye"
+    printString(text)
+    time.sleep(1)
+    exit()
 
 
 
@@ -1243,7 +1444,7 @@ Locations_name=["City_square","Black_Widow_Craft_Ales", "The_Angelic_Shoe", "The
 
 # Entry point of the script
 if __name__ == "__main__":
-    start()
+    Query()
     
     
 
