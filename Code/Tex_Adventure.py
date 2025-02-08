@@ -156,9 +156,14 @@ def enemey_fight(enem1,tut_p):
     Hit(enem1,tut_p,wpns[wpn-1],False)
 
 
+def selection():
+    select_class = int(input("Selct your class. \n1."))
+
+
+
 def Win():
     print("You Win. You defated your opponent")
-    exit()
+    selection()
     
 
 
