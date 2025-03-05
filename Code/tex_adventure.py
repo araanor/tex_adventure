@@ -71,6 +71,11 @@ def printString(string):
         txt.configure(text=txt.cget('text') + char)
         txt.update()
         time.sleep(.01)
+def rec_print(string):
+    for char in string:
+        txt.configure(text=txt.cget('text') + char)
+        txt.update()
+        time.sleep(.01)
 #function to clear the text box
 def clear_txt_box():
     txt.configure(text="")
@@ -570,10 +575,10 @@ def resource_management():
     resource_management_window = tk.Tk()
     resource_management_window.title("Resource Management")
 
-    for k,v in range(0,len(player_inv)):
-        printString(k)
-        printString(v)
-        printString("\n")
+    for k in player_inv:
+        rec_print(k.name)
+        rec_print(str(player_inv[k]))
+        rec_print("\n")
 
     fin = False
     while not fin:
