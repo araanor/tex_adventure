@@ -39,6 +39,10 @@ global load
 load = False
 
 
+global player_inv
+player_inv = {gpound:200}
+
+
 #making a disabler
 def disabler():
     global Locations_all
@@ -565,6 +569,12 @@ def resource_management():
     texty = txt.cget('text')
     resource_management_window = tk.Tk()
     resource_management_window.title("Resource Management")
+
+    for k,v in range(0,len(player_inv)):
+        printString(k)
+        printString(v)
+        printString("\n")
+
     fin = False
     while not fin:
         texty = txt.cget('text')
@@ -572,8 +582,7 @@ def resource_management():
         resource_management_window.wait_window(resource_management_window)
         printString(texty)
         fin = True
-
-
+    
 
 
 
