@@ -40,16 +40,16 @@ load = False
 
 
 global player_inv
-player_inv = {gpound:200}
-
+inv_categories = ["weapons","armor","consumables","resouces","currency","misc"]
+player_inv = {gpound:200,gcredit:2000}
 
 #making a disabler
 def disabler():
     global Locations_all
     global Locations_name
-    for i in Locations_all:
+    for i in range(0,len(Locations_all)):
         Locations_all[i] = False
-    for i in Locations_all:
+    for i in range(0,len(Locations_all)):
         pickle.dump(Locations_all[i],open(f"{Locations_name[i]}.p","wb"))
     # pickle.dump(Black_Widow_Craft_Ales,open("Black_Widow_Craft_Ales.p","wb"))
     # pickle.dump(The_Angelic_Shoe,open("The_Angelic_Shoe.p","wb"))
@@ -71,11 +71,8 @@ def printString(string):
         txt.configure(text=txt.cget('text') + char)
         txt.update()
         time.sleep(.01)
-def rec_print(string):
-    for char in string:
-        txt.configure(text=txt.cget('text') + char)
-        txt.update()
-        time.sleep(.01)
+def inv_print(string):
+    pass
 #function to clear the text box
 def clear_txt_box():
     txt.configure(text="")
@@ -109,7 +106,7 @@ txt_ent = tk.Entry(content,borderwidth=5,relief="raised",width=93)
 
 #function to display the inventory
 def inventory():
-    global inventory_window
+    global inventory_window, inv_tree
     texty =  txt.cget('text')
     inventory_window = tk.Tk()
     inventory_window.title("Inventory")
@@ -118,7 +115,35 @@ def inventory():
     
 
     #inventory widgets
+    inv_tree = ttk.Treeview(inventory_window,columns=("quantity"),selectmode="browse")
+    inv_tree.heading("#0",text="Item")
+    inv_tree.heading("quantity",text="Quantity")
+
+    for i in range(0,len(inv_categories)):
+        inv_tree.insert("", "end",id=inv_categories[i], text=inv_categories[i], values=(""), tags=(inv_categories[i]))
+
     
+
+    for k in player_inv.keys():
+        v = player_inv[k]
+        t = k.type
+        inv_tree.insert(str(k.type), "end", text=k.name, values=(v))
+    
+    ttk.Style(inv_tree).theme_use("clam")
+    ttk.Style(inv_tree).configure("Treeview",background="black",foreground="green",fieldbackground="black")
+    ttk.Style(inv_tree).configure("Treeview.Heading",background="black",foreground="green")
+
+
+    inv_tree.tag_configure("weapons",background="red",foreground="black")
+    inv_tree.tag_configure("armor",background="blue",foreground="red")
+    inv_tree.tag_configure("consumables",background="yellow",foreground="red")
+    inv_tree.tag_configure("resouces",background="purple",foreground="red")
+    inv_tree.tag_configure("currency",background="orange",foreground="red")
+    inv_tree.tag_configure("misc",background="darkslategrey",foreground="red")
+    
+    inv_tree.pack()
+
+
 
     fin = False
     while fin == False:
@@ -167,11 +192,32 @@ def skills():
 
 #function to display the stats
 def stats():
-    global stats_window
+    global stats_window, player
     texty = txt.cget('text')
     stats_window = tk.Tk()
     stats_window.title("Stats")
     fin = False
+
+    hp = tk.Label(stats_window ,text="HP: ")
+    name = tk.Label(stats_window ,text="Name: "+str(player.name))
+    melee = tk.Label(stats_window ,text="Melee: "+str(player.melee))
+    ranged = tk.Label(stats_window ,text="Ranged: "+str(player.ranged))
+    intelligence = tk.Label(stats_window ,text="Intelligence: "+str(player.intelligence))
+    wisdom = tk.Label(stats_window ,text="Wisdom: "+str(player.wisdom))
+    durrability = tk.Label(stats_window ,text="Durrability: "+str(player.durability))
+    dexterity = tk.Label(stats_window ,text="Dexterity: "+str(player.dexterity))
+    navigation = tk.Label(stats_window ,text="Navigation: "+str(player.navigation))
+
+    hp.grid(row=0,column=0)
+    name.grid(row=0,column=1)
+    melee.grid(row=0,column=2)
+    ranged.grid(row=1,column=0)
+    intelligence.grid(row=1,column=1)
+    wisdom.grid(row=1,column=2)
+    durrability.grid(row=2,column=0)
+    dexterity.grid(row=2,column=1)
+    navigation.grid(row=2,column=2)
+
     while not fin:
         texty = txt.cget('text')
         clear_txt_box()
@@ -222,15 +268,15 @@ def move():
         City_square = True
         pickle.dump(City_square,open("City_square.p","wb"))
         clear_txt_box()
+        move_window.destroy()
         text = "You walk to the Black Widow Craft Ales and enter the bar. The bartender greets you and asks what you would like to drink. What do you do?"
         printString(text)
         time.sleep(0.5)
-        move_window.destroy()
         window.title("Tex-9__Ignis__Black Widow Craft Ales")
         window.update()
         global Black_Widow_Craft_Ales_found
         Black_Widow_Craft_Ales_found = True
-        pickle.dump(Black_Widow_Craft_Ales_found,open("Black_Widow_Craft_Ales.p","wb"))
+        pickle.dump(Black_Widow_Craft_Ales_found,open("Black_Widow_Craft_Alesf.p","wb"))
         global close
         close = True
 
@@ -248,7 +294,7 @@ def move():
         window.update()
         global The_Angelic_Shoe_found
         The_Angelic_Shoe_found = True
-        pickle.dump(The_Angelic_Shoe_found,open("The_Angelic_Shoe.p","wb"))
+        pickle.dump(The_Angelic_Shoe_found,open("The_Angelic_Shoef.p","wb"))
         global close
         close = True
 
@@ -266,7 +312,7 @@ def move():
         window.update()
         global The_Rainy_Tribute_found
         The_Rainy_Tribute_found = True
-        pickle.dump(The_Rainy_Tribute_found,open("The_Rainy_Tribute.p","wb"))
+        pickle.dump(The_Rainy_Tribute_found,open("The_Rainy_Tributef.p","wb"))
         global close
         close = True
 
@@ -284,7 +330,7 @@ def move():
         window.update()
         global Genius_in_a_Bottle_found
         Genius_in_a_Bottle_found = True
-        pickle.dump(Genius_in_a_Bottle_found,open("Genius_in_a_Bottle.p","wb"))
+        pickle.dump(Genius_in_a_Bottle_found,open("Genius_in_a_Bottlef.p","wb"))
         global close
         close = True
 
@@ -302,7 +348,7 @@ def move():
         window.update()
         global le_Talisman_found
         le_Talisman_found = True
-        pickle.dump(le_Talisman_found,open("le_Talisman.p","wb"))
+        pickle.dump(le_Talisman_found,open("le_Talismanf.p","wb"))
         global close
         close = True
 
@@ -320,18 +366,21 @@ def move():
         window.update()
         global The_Flying_Carpet_found
         The_Flying_Carpet_found = True
-        pickle.dump(The_Flying_Carpet_found,open("The_Flying_Carpet.p","wb"))
+        pickle.dump(The_Flying_Carpet_found,open("The_Flying_Carpetf.p","wb"))
         global close
         close = True
 
     City_square_Locations = [Black_Widow_Craft_Ales, The_Angelic_Shoe, The_Rainy_Tribute, Genius_in_a_Bottle, le_Talisman, The_Flying_Carpet, Adventurers_Den]
 
     def City_squaref():
+        global City_square
         disabler()
-        for i in City_square_Locations:
+        for i in range(0,len(City_square_Locations)):
             global Locations_name
             City_square_Locations[i] = True
-            pickle.dump(City_square_Locations,open(f"{Locations_name[i]}.p","wb"))
+            pickle.dump(City_square_Locations[i],open(f"{Locations_name[i]}.p","wb"))
+        City_square = False
+        pickle.dump(City_square,open("City_square.p","wb"))
         clear_txt_box()
         text = "You walk to the City Square and look around. You see a few shops and a bar. What do you do?"
         printString(text)
@@ -341,7 +390,7 @@ def move():
         window.update()
         global City_square_found
         City_square_found = True
-        pickle.dump(City_square_found,open("City_square.p","wb"))
+        pickle.dump(City_square_found,open("City_squaref.p","wb"))
         global close
         close = True
     
@@ -359,7 +408,7 @@ def move():
         window.update()
         global Adventurers_Den_found
         Adventurers_Den_found = True
-        pickle.dump(Adventurers_Den_found,open("Adventurers_Den.p","wb"))
+        pickle.dump(Adventurers_Den_found,open("Adventurers_Denf.p","wb"))
         global close
         close = True
 
@@ -575,11 +624,6 @@ def resource_management():
     resource_management_window = tk.Tk()
     resource_management_window.title("Resource Management")
 
-    for k in player_inv:
-        rec_print(k.name)
-        rec_print(str(player_inv[k]))
-        rec_print("\n")
-
     fin = False
     while not fin:
         texty = txt.cget('text')
@@ -676,22 +720,54 @@ def action():
 #function to display the location
 #pointer
 def location():
-    global location_window
+    global location_window, Ignis_found, City_square_found, Black_Widow_Craft_Ales_found, The_Angelic_Shoe_found, The_Rainy_Tribute_found, Genius_in_a_Bottle_found, le_Talisman_found, The_Flying_Carpet_found, Adventurers_Den_found
     texty = txt.cget('text')
     location_window = tk.Tk()
     location_window.title("Location")
 
     #unpickling the findings
     try:
-        Ignis_found = pickle.load(open("Ignis.p","rb"))
-        City_square_found = pickle.load(open("City_square.p","rb"))
-        Black_Widow_Craft_Ales_found = pickle.load(open("Black_Widow_Craft_Ales.p","rb"))
-        The_Angelic_Shoe_found = pickle.load(open("The_Angelic_Shoe.p","rb"))
-        The_Rainy_Tribute_found = pickle.load(open("The_Rainy_Tribute.p","rb"))
-        Genius_in_a_Bottle_found = pickle.load(open("Genius_in_a_Bottle.p","rb"))
-        le_Talisman_found = pickle.load(open("le_Talisman.p","rb"))
-        The_Flying_Carpet_found = pickle.load(open("The_Flying_Carpet.p","rb"))
-        Adventurers_Den_found = pickle.load(open("Adventurers_Den.p","rb"))
+        Ignis_found = pickle.load(open("Ignisf.p","rb"))
+    except:
+        pass
+
+    try:
+        City_square_found = pickle.load(open("City_squaref.p","rb"))
+    except:
+        pass
+
+    try:
+        Black_Widow_Craft_Ales_found = pickle.load(open("Black_Widow_Craft_Alesf.p","rb"))
+    except:
+        pass
+
+    try:
+        The_Angelic_Shoe_found = pickle.load(open("The_Angelic_Shoef.p","rb"))
+    except:
+        pass
+
+    try:
+        The_Rainy_Tribute_found = pickle.load(open("The_Rainy_Tributef.p","rb"))
+    except:
+        pass
+
+    try:
+        Genius_in_a_Bottle_found = pickle.load(open("Genius_in_a_Bottlef.p","rb"))
+    except:
+        pass
+
+    try:
+        le_Talisman_found = pickle.load(open("le_Talismanf.p","rb"))
+    except:
+        pass
+
+    try:
+        The_Flying_Carpet_found = pickle.load(open("The_Flying_Carpetf.p","rb"))
+    except:
+        pass
+
+    try:
+        Adventurers_Den_found = pickle.load(open("Adventurers_Denf.p","rb"))
     except:
         pass
 
@@ -708,27 +784,38 @@ def location():
     location.tag_configure('Building', background='Black',foreground='green')
     location.tag_configure('Clicked', background='Purple',foreground='black')
     updater.pack()
-    location.pack()
     location.insert('',"end",'Planet',text="Tex-9",tags=('Planet'))
+    
+    
     if Ignis_found == True:
         location.insert('Planet',"end",'Ignis',text="Ignis",tags=('Zone'))
+
     if City_square_found == True:
         location.insert('Ignis',"end",'City Square',text="City Square",tags=('City'))
+
     if Black_Widow_Craft_Ales_found == True:
         location.insert('City Square',"end",'Black Widow Craft Ales',text="Black Widow Craft Ales",tags=('Building'))
+
     if The_Angelic_Shoe_found == True:
         location.insert('City Square',"end",'The Angelic Shoe',text="The Angelic Shoe",tags=('Building'))
+
     if The_Rainy_Tribute_found == True:
         location.insert('City Square',"end",'The Rainy Tribute',text="The Rainy Tribute",tags=('Building'))
+
     if Genius_in_a_Bottle_found == True:
         location.insert('City Square',"end",'Genius in a Bottle',text="Genius in a Bottle",tags=('Building'))
+
     if le_Talisman_found == True:
         location.insert('City Square',"end",'Le Talisman',text="Le Talisman",tags=('Building'))
+
     if The_Flying_Carpet_found == True:
         location.insert('City Square',"end",'The Flying Carpet',text="The Flying Carpet",tags=('Building'))
+
     if Adventurers_Den_found == True:
         location.insert('City Square',"end",'Adventurers Den',text="Adventurers Den",tags=('Building'))
-    
+
+
+    location.pack()
 
     fin = False
     while not fin:
@@ -1079,15 +1166,15 @@ def load_save():
         except:
             pass
     try:
-        Ignis_found = pickle.load(open("Ignis.p","rb"))
-        City_square_found = pickle.load(open("City_square.p","rb"))
-        Black_Widow_Craft_Ales_found = pickle.load(open("Black_Widow_Craft_Ales.p","rb"))
-        The_Angelic_Shoe_found = pickle.load(open("The_Angelic_Shoe.p","rb"))
-        The_Rainy_Tribute_found = pickle.load(open("The_Rainy_Tribute.p","rb"))
-        Genius_in_a_Bottle_found = pickle.load(open("Genius_in_a_Bottle.p","rb"))
-        le_Talisman_found = pickle.load(open("le_Talisman.p","rb"))
-        The_Flying_Carpet_found = pickle.load(open("The_Flying_Carpet.p","rb"))
-        Adventurers_Den_found = pickle.load(open("Adventurers_Den.p","rb"))
+        Ignis_found = pickle.load(open("Ignisf.p","rb"))
+        City_square_found = pickle.load(open("City_squaref.p","rb"))
+        Black_Widow_Craft_Ales_found = pickle.load(open("Black_Widow_Craft_Alesf.p","rb"))
+        The_Angelic_Shoe_found = pickle.load(open("The_Angelic_Shoef.p","rb"))
+        The_Rainy_Tribute_found = pickle.load(open("The_Rainy_Tributef.p","rb"))
+        Genius_in_a_Bottle_found = pickle.load(open("Genius_in_a_Bottlef.p","rb"))
+        le_Talisman_found = pickle.load(open("le_Talismanf.p","rb"))
+        The_Flying_Carpet_found = pickle.load(open("The_Flying_Carpetf.p","rb"))
+        Adventurers_Den_found = pickle.load(open("Adventurers_Denf.p","rb"))
         player = pickle.load(open("player.p","rb"))
 
     except:
@@ -1110,15 +1197,15 @@ def save_game():
     global Ignis_found, City_square_found, Black_Widow_Craft_Ales_found, The_Angelic_Shoe_found, The_Rainy_Tribute_found, Genius_in_a_Bottle_found, le_Talisman_found, The_Flying_Carpet_found, Adventurers_Den_found
     global player
     #pickleing markers
-    pickle.dump(Ignis_found,open("Ignis.p","wb"))
-    pickle.dump(City_square_found,open("City_square.p","wb"))
-    pickle.dump(Black_Widow_Craft_Ales_found,open("Black_Widow_Craft_Ales.p","wb"))
-    pickle.dump(The_Angelic_Shoe_found,open("The_Angelic_Shoe.p","wb"))
-    pickle.dump(The_Rainy_Tribute_found,open("The_Rainy_Tribute.p","wb"))
-    pickle.dump(Genius_in_a_Bottle_found,open("Genius_in_a_Bottle.p","wb"))
-    pickle.dump(le_Talisman_found,open("le_Talisman.p","wb"))
-    pickle.dump(The_Flying_Carpet_found,open("The_Flying_Carpet.p","wb"))
-    pickle.dump(Adventurers_Den_found,open("Adventurers_Den.p","wb"))
+    pickle.dump(Ignis_found,open("Ignisf.p","wb"))
+    pickle.dump(City_square_found,open("City_squaref.p","wb"))
+    pickle.dump(Black_Widow_Craft_Ales_found,open("Black_Widow_Craft_Alesf.p","wb"))
+    pickle.dump(The_Angelic_Shoe_found,open("The_Angelic_Shoef.p","wb"))
+    pickle.dump(The_Rainy_Tribute_found,open("The_Rainy_Tributef.p","wb"))
+    pickle.dump(Genius_in_a_Bottle_found,open("Genius_in_a_Bottlef.p","wb"))
+    pickle.dump(le_Talisman_found,open("le_Talismanf.p","wb"))
+    pickle.dump(The_Flying_Carpet_found,open("The_Flying_Carpetf.p","wb"))
+    pickle.dump(Adventurers_Den_found,open("Adventurers_Denff.p","wb"))
     
     try:
         pickle.dump(player,open("player.p","wb"))
@@ -1291,7 +1378,7 @@ def game():
     window.title("Tex-9__Ignis")
     global Ignis_found
     Ignis_found = True
-    pickle.dump(Ignis_found,open("Ignis.p","wb"))
+    pickle.dump(Ignis_found,open("Ignisfs.p","wb"))
 
     # Display welcome message
     text = "welcome to the wide world"
@@ -1300,22 +1387,22 @@ def game():
     clear_txt_box()
     
     # Display initial game scenario
-    print("name: "+player.name)
-    try:
-        print("melee: "+ str(player.melee) + str(meleer))
-        print("ranged: "+ str(player.ranged) + str(ranger))
-        print("intelligence: "+ str(player.intelligence) + str(inteller))
-        print("wisdom: "+ str(player.wisdom) + str(wisdomer))
-        print("durability: "+ str(player.durability) + str(durabilityer))
-        print("dexterity: "+ str(player.dexterity) + str(dexterityer))
-        print("navigation: "+ str(player.navigation) + str(navigationer))
-    except:
-        pass
+    # print("name: "+player.name)
+    # try:
+    #     print("melee: "+ str(player.melee))
+    #     print("ranged: "+ str(player.ranged))
+    #     print("intelligence: "+ str(player.intelligence))
+    #     print("wisdom: "+ str(player.wisdom))
+    #     print("durability: "+ str(player.durability))
+    #     print("dexterity: "+ str(player.dexterity))
+    #     print("navigation: "+ str(player.navigation))
+    # except:
+    #     pass
     text = "You find yourself in a city square, the suns are shining and the people are going about their business. You see a few shops and a bar. There's a sign pointing toward the Adventurers Den. What do you do?"
     global City_square_found
     City_square_found = True
     disabler()
-    pickle.dump(City_square_found,open("City_square.p","wb"))
+    pickle.dump(City_square_found,open("City_squaref.p","wb"))
     printString(text)
     time.sleep(1)
     global Black_Widow_Craft_Ales, The_Angelic_Shoe, The_Rainy_Tribute, Genius_in_a_Bottle, le_Talisman, The_Flying_Carpet, Adventurers_Den, City_square
@@ -1327,6 +1414,14 @@ def game():
     The_Flying_Carpet = True
     Adventurers_Den = True
     City_square = False
+    pickle.dump(City_square,open("City_square.p","wb"))
+    pickle.dump(Black_Widow_Craft_Ales,open("Black_Widow_Craft_Ales.p","wb"))
+    pickle.dump(The_Angelic_Shoe,open("The_Angelic_Shoe.p","wb"))
+    pickle.dump(The_Rainy_Tribute,open("The_Rainy_Tribute.p","wb"))
+    pickle.dump(Genius_in_a_Bottle,open("Genius_in_a_Bottle.p","wb"))
+    pickle.dump(le_Talisman,open("le_Talisman.p","wb"))
+    pickle.dump(The_Flying_Carpet,open("The_Flying_Carpet.p","wb"))
+    pickle.dump(Adventurers_Den,open("Adventurers_Den.p","wb"))
     answer = False
     while answer == False:
         get_entry_text()
@@ -1445,7 +1540,11 @@ Icihala = False
 Locations_all=[City_square, Black_Widow_Craft_Ales, The_Angelic_Shoe, The_Rainy_Tribute, Genius_in_a_Bottle, le_Talisman, The_Flying_Carpet, Adventurers_Den, Etherpoint, The_Pearly_Forests, Mather_Island, Selene, Prodigy, Terminus_Eternity, Revelation_Colony, Helios_Colony, Icihala]
 Locations_name=["City_square","Black_Widow_Craft_Ales", "The_Angelic_Shoe", "The_Rainy_Tribute", "Genius_in_a_Bottle", "le_Talisman", "The_Flying_Carpet", "Adventurers_Den", "Etherpoint", "The_Pearly_Forests", "Mather_Island", "Selene", "Prodigy", "Terminus_Eternity", "Revelation_Colony", "Helios_Colony", "Icihala"]
 
-
+for i in range(0,len(Locations_all)):
+    try:
+        pickle.dump(Locations_all[i],open(f"{Locations_name[i]}.p","wb"))
+    except:
+        pass
 
 
 
